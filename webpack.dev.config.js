@@ -4,7 +4,7 @@ const WebpackShellPlugin = require('webpack-shell-plugin');
 
 const config = {
     entry: {
-        'index': './src/index.js'       
+        'index': './src/index.js'
     },
     output: {
         filename: '[name].bundle.js',
@@ -20,19 +20,19 @@ const config = {
                 use: [
                     'file-loader'
                 ]
-            },  
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: [ '@babel/env' ],
-                        plugins: [ 'transform-class-properties' ]
+                        presets: ['@babel/env'],
+                        plugins: ['transform-class-properties']
                     }
                 }
             }
-            
+
         ]
     },
     plugins: [
@@ -42,11 +42,14 @@ const config = {
                 path.join(process.cwd(), 'build/**/*')
             ]
         })
-    ]
+    ],
+    node: {
+        __dirname: true
+    }
 }
 
 if (process.env.NODE_ENV !== 'production') {
-    config.plugins.push(new WebpackShellPlugin({onBuildEnd: ['nodemon build/index.bundle.js --watch build']}));
+    config.plugins.push(new WebpackShellPlugin({ onBuildEnd: ['nodemon build/index.bundle.js --watch build'] }));
 }
 
 module.exports = config;

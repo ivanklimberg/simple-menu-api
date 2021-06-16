@@ -48,5 +48,8 @@ module.exports = {
                 path.join(process.cwd(), 'build/**/*')
             ]
         })
-    ]
+    ],
+    node: {
+        __dirname: true
+    }
 }
