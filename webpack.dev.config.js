@@ -1,7 +1,8 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
-module.exports = {
+const config = {
     entry: {
         'index': './src/index.js'       
     },
@@ -43,3 +44,9 @@ module.exports = {
         })
     ]
 }
+
+if (process.env.NODE_ENV !== 'production') {
+    config.plugins.push(new WebpackShellPlugin({onBuildEnd: ['nodemon build/index.bundle.js --watch build']}));
+}
+
+module.exports = config;
