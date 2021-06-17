@@ -19,14 +19,17 @@ export const putMenu = (req, res) => {
         const fileName = `${id}.json`;
 
         const restaurant = getFile(fileName);
+        if(!restaurant){
+            return res.status(404).send('Restaurant not found');
+        }
+
         const menu = restaurant.menus.find(r =>
             r.id === parseInt(menuId));
-        
         if(!menu){
             return res.status(404).send('Menu not found')
         }
         
-        if(!req.body.menu || !validateMenu(JSON.parse(req.body.menu))) {
+        if(!req.body.menu || !validateMenu(req.body.menu)) {
             return res.status(400).send({
                 success: false,
                 message: 'The menu is missing required fields. Required fields are id, name and dishes'
@@ -35,7 +38,7 @@ export const putMenu = (req, res) => {
 
         remove(restaurant.menus, m => m.id === parseInt(menuId));
 
-        restaurant.menus.push(JSON.parse(req.body.menu))
+        restaurant.menus.push(req.body.menu)
         writeFile(fileName, restaurant)
 
         res.send({
