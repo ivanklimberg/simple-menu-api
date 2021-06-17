@@ -14,7 +14,6 @@ export const putMenu = (req, res) => {
             id,
             menuId
         } = req.params;
-        console.log('BODY:::', req.body);
         
         const fileName = `${id}.json`;
 
