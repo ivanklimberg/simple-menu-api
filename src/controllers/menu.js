@@ -32,7 +32,7 @@ export const putMenu = (req, res) => {
         if(!req.body.menu || !validateMenu(req.body.menu)) {
             return res.status(400).send({
                 success: false,
-                message: 'The menu is missing required fields. Required fields are id, name and dishes'
+                message: 'The menu is missing required fields. Required fields are id (number), name and dishes (array)'
             })
         }
 
