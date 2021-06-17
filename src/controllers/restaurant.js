@@ -1,4 +1,4 @@
-import { getFile, getAllFiles, writeFile } from '../helpers/fileHelper';
+import { getFile, getAllFiles } from '../helpers/fileHelper';
 
 const PAGE_SIZE = 10;
 

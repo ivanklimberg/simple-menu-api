@@ -3,6 +3,7 @@
     "name": "Alabama Fried Chicken",
     "menus": [
         {
+            "id": 1,
             "name": "Menu",
             "dishes": [
                 {
