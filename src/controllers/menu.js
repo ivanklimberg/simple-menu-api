@@ -1,4 +1,12 @@
+import remove from 'lodash/remove';
 import { getFile, writeFile } from '../helpers/fileHelper';
+
+const validateMenu = menu =>
+    menu && 
+    (menu.id && typeof menu.id === 'number') &&
+    menu.name &&
+    (menu.dishes && typeof menu.dishes === 'object')
+
 
 export const putMenu = (req, res) => {
     try {
@@ -6,8 +14,11 @@ export const putMenu = (req, res) => {
             id,
             menuId
         } = req.params;
+        console.log('BODY:::', req.body);
+        
+        const fileName = `${id}.json`;
 
-        const restaurant = getFile(`${id}.json`);
+        const restaurant = getFile(fileName);
         const menu = restaurant.menus.find(r =>
             r.id === parseInt(menuId));
         
@@ -15,9 +26,22 @@ export const putMenu = (req, res) => {
             return res.status(404).send('Menu not found')
         }
         
-        
+        if(!req.body.menu || !validateMenu(JSON.parse(req.body.menu))) {
+            return res.status(400).send({
+                success: false,
+                message: 'The menu is missing required fields. Required fields are id, name and dishes'
+            })
+        }
 
-        
+        remove(restaurant.menus, m => m.id === parseInt(menuId));
+
+        restaurant.menus.push(JSON.parse(req.body.menu))
+        writeFile(fileName, restaurant)
+
+        res.send({
+            success: true,
+            message: 'Menu updated!'
+        })
     }catch(err) {
         console.log(err);
         res.status(500).send();
