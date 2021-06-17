@@ -1,0 +1,23 @@
+{
+    "id": 1,
+    "name": "Pupu Platter Caribbean Food",
+    "menus": [
+        {
+            "name": "Main Menu",
+            "dishes": [
+                {
+                    "name": "Small Pupu Platter",
+                    "price": 15
+                },
+                {
+                    "name": "Big Kahuna Burger",
+                    "price": 10.75
+                },
+                {
+                    "name": "Big Pupu Platter",
+                    "price": 22
+                }
+            ]
+        }
+    ]
+}

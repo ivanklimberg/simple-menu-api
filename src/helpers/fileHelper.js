@@ -8,7 +8,7 @@ export const getFile = (fileName) => {
     if(fs.existsSync(route)) {
         const file = fs.readFileSync(route);
         if(!file) return;
-    
+        
         return JSON.parse(file);
     }
 
@@ -16,7 +16,10 @@ export const getFile = (fileName) => {
 }
 
 export const getAllFiles = () => {
-    return fs.readdirSync(DB_ROUTE).map(file => JSON.parse(file))
+    return fs.readdirSync(DB_ROUTE).map(fileName => {
+        const file = getFile(fileName)
+        return file;
+    })
 }
 
 export const writeFile = (fileName, data) => {
