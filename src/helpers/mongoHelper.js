@@ -6,7 +6,6 @@ const COLLECTION_NAME = 'restaurants';
 const client = new MongoClient(URI);
 
 export const startMongo = async () => {
-   
     await client.connect();
 }
 
@@ -33,8 +32,6 @@ export const getRestaurantsFromDB = async showOnlyWithMenus => {
 }
 
 export const updateRestaurant = async restaurant => {
-
-    console.log('RESTAURANT:::', restaurant)
     await client.db(DB_NAME).collection(COLLECTION_NAME).updateOne({  _id: restaurant._id }, { $set: restaurant });
 }
 
