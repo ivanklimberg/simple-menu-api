@@ -1,12 +1,6 @@
 import remove from 'lodash/remove';
+import MenuModel from '../models/menuModel';
 import { getRestaurantFromDB, updateRestaurant } from '../helpers/mongoHelper';
-
-const validateMenu = menu =>
-    menu && 
-    (menu.id && typeof menu.id === 'number') &&
-    menu.name &&
-    (menu.dishes && typeof menu.dishes === 'object')
-
 
 export const putMenu = async (req, res) => {
     try {
@@ -26,10 +20,13 @@ export const putMenu = async (req, res) => {
             return res.status(404).send('Menu not found')
         }
         
-        if(!req.body.menu || !validateMenu(req.body.menu)) {
+        const model = new MenuModel(req.body.menu);
+        const error = model.validateSync();
+
+        if(error && error.errors) {
             return res.status(400).send({
                 success: false,
-                message: 'The menu is missing required fields. Required fields are id (number), name and dishes (array)'
+                errors: error.errors
             })
         }
 
