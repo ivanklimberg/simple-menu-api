@@ -4,6 +4,7 @@ const WebpackShellPlugin = require('webpack-shell-plugin');
 
 const config = {
     entry: {
+        'babel-polyfill': 'babel-polyfill',
         'index': './src/index.js'
     },
     output: {

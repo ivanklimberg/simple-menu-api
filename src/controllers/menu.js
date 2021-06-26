@@ -1,5 +1,5 @@
 import remove from 'lodash/remove';
-import { getFile, writeFile } from '../helpers/fileHelper';
+import { getRestaurantFromDB, updateRestaurant } from '../helpers/mongoHelper';
 
 const validateMenu = menu =>
     menu && 
@@ -8,16 +8,14 @@ const validateMenu = menu =>
     (menu.dishes && typeof menu.dishes === 'object')
 
 
-export const putMenu = (req, res) => {
+export const putMenu = async (req, res) => {
     try {
         const {
             id,
             menuId
         } = req.params;
         
-        const fileName = `${id}.json`;
-
-        const restaurant = getFile(fileName);
+        const restaurant = await getRestaurantFromDB(parseInt(id));
         if(!restaurant){
             return res.status(404).send('Restaurant not found');
         }
@@ -36,9 +34,9 @@ export const putMenu = (req, res) => {
         }
 
         remove(restaurant.menus, m => m.id === parseInt(menuId));
-
         restaurant.menus.push(req.body.menu)
-        writeFile(fileName, restaurant)
+
+        updateRestaurant(restaurant)
 
         res.send({
             success: true,

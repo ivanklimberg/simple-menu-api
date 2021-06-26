@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
+        'babel-polyfill': 'babel-polyfill',
         'index': './src/index.js'
     },
     output: {

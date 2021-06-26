@@ -1,18 +1,11 @@
-import { getFile, getAllFiles } from '../helpers/fileHelper';
+import { getRestaurantFromDB, getRestaurantsFromDB} from '../helpers/mongoHelper';
 
 const PAGE_SIZE = 10;
 
-const filterRestaurants = (restaurants, showOnlyWithMenus) => {
-    return restaurants.filter(item => {
-        if(!showOnlyWithMenus) return true;
-        return item.menus.length;
-    })
-}
-
-export const getRestaurants = (req, res) => {
+export const getRestaurants = async (req, res) => {
     try {
         if(req.params.id) {
-            const restaurant = getFile(`${req.params.id}.json`);
+            const restaurant = await getRestaurantFromDB(parseInt(req.params.id));
             if(!restaurant)
                 return res.status(404).send('Restaurant not found');
             
@@ -20,12 +13,8 @@ export const getRestaurants = (req, res) => {
         }
 
         const page = parseInt(req.query.page || 1);
-        let restaurants = getAllFiles();
+        const restaurants = await getRestaurantsFromDB(req.query.showOnlyWithMenu);
 
-        if(req.query.showOnlyWithMenu) {
-            restaurants = filterRestaurants(restaurants, req.query.showOnlyWithMenu);
-        }
-        
         return res.send({
             totalPages: Math.ceil(restaurants.length / PAGE_SIZE),
             page,
