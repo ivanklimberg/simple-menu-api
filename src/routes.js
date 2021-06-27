@@ -11,7 +11,8 @@ app.get('/', (req, res) => {
     })
 })
 
-app.get('/restaurants/:id?', restaurantController.getRestaurants);
+app.get('/restaurants', restaurantController.getRestaurants);
+app.get('/restaurants/:id', restaurantController.getRestaurantById);
 
 app.put('/restaurants/:id/menus/:menuId', menuController.putMenu)
 

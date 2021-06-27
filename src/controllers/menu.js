@@ -29,7 +29,7 @@ export const putMenu = async (req, res) => {
                 errors: error.errors
             })
         }
-
+        
         remove(restaurant.menus, m => m.id === parseInt(menuId));
         restaurant.menus.push(req.body.menu)
 
